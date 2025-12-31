@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo,  } from 'react';
 
 // ============================================================================
 // CELESTIAL SELF - Personal Astrology Companion
@@ -1046,7 +1046,6 @@ const NatalChartWheel = ({ positions, aspects }) => {
 // Daily Screen
 const DailyScreen = ({ userData, chartData }) => {
   const moonPhase = getMoonPhase();
-  const interpretation = getInterpretation('sunSign', { sign: chartData.sunSign });
   const affirmation = getAffirmation(chartData.sunSign, moonPhase);
   
   const timeOfDay = new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening';
@@ -1687,7 +1686,7 @@ export default function CelestialSelf() {
   const chartData = useMemo(() => {
     if (!userData?.birthDate) return null;
     
-    const [year, month, day] = userData.birthDate.split('-').map(Number);
+    const [, month, day] = userData.birthDate.split('-').map(Number);
     const sunSign = calculateSunSign(month, day);
     const moonSign = calculateMoonSign(userData.birthDate, userData.birthTime);
     const rising = calculateRising(userData.birthTime, userData.birthDate);
