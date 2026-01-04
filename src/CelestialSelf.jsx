@@ -54,6 +54,178 @@ const ORISHA_CORRESPONDENCES = {
   Pluto: { orisha: 'Iku', domain: 'Transformation', traits: 'death/rebirth, deep change, power, regeneration' }
 };
 
+// Extended Orisha Profiles - Deeper wisdom beyond planetary correspondences
+// Educational content honoring living Yoruba traditions
+const EXTENDED_ORISHA_PROFILES = {
+  'Nana Buruku': {
+    name: 'Nana Buruku',
+    title: 'The Primordial Mother',
+    domain: 'Ancestral Wisdom, Ancient Waters, Creation Before Form',
+    planetaryLink: 'Moon (deeper octave), Saturn, ancestral connections',
+    colors: ['Purple', 'Deep Blue', 'White'],
+    element: 'Primal Water and Earth',
+    symbols: ['Ancient clay pot', 'Purple cloth', 'Cowrie shells', 'Egúngún mask'],
+
+    mythology: "Nana Buruku is the grandmother of the Orishas, older even than Obatala. She exists in the liminal space between chaos and creation, where form has not yet crystallized from the cosmic waters. In some traditions, she is the mother of Babalú-Ayé and Oshumare, and her wisdom predates the iron age—she refuses Ogun's metal tools, working only with wood and clay. She represents the wisdom that lives in ancestral memory, the knowing that comes before words.",
+
+    sacred: "Nana's energy is especially present in swamps, marshes, and places where water meets earth in ambiguous ways. She governs transitions between life and death, holding the souls of the departed before they journey to Orun. Her wisdom is the wisdom of elders who have seen civilizations rise and fall.",
+
+    offerings: ['Purple yams', 'White flowers', 'Coconut', 'Clear water', 'Clay vessels', 'Lavender'],
+
+    astrological: "Nana Buruku resonates with deep Moon placements (especially Moon in Scorpio or 8th house), strong Saturn (wisdom through time), and emphasized ancestral houses (4th, 8th, 12th). She walks with those who carry ancestral gifts, psychic mediums, and anyone whose wisdom seems older than their years.",
+
+    signsOfConnection: [
+      'Deep connection to ancestors and lineage',
+      'Comfort with death, endings, and transitions',
+      'Preference for ancient, traditional ways over modern innovations',
+      'Psychic or mediumistic abilities',
+      'Wisdom that seems to come from beyond this lifetime',
+      'Attraction to purple, deep waters, and sacred spaces'
+    ],
+
+    workingWith: "To work with Nana Buruku is to honor the ancestors and accept that some wisdom cannot be rushed. She teaches patience, reverence, and the understanding that you are not the first to walk your path. Light purple candles, tend ancestral altars, and listen to the voices that speak through your bones.",
+
+    shadow: "Nana's shadow appears as excessive attachment to the past, inability to embrace necessary change, or using age/tradition as an excuse for stagnation. She reminds us that even ancient wisdom must be applied to present circumstances.",
+
+    integration: "Integrate Nana's wisdom by honoring your lineage while living your unique destiny. The ancestors guide, but you must walk. Respect tradition while remaining present to what this moment requires."
+  },
+
+  'Babalú-Ayé': {
+    name: 'Babalú-Ayé',
+    title: 'The Wounded Healer',
+    domain: 'Disease and Healing, Earth, Humility, Compassion',
+    planetaryLink: 'Saturn (suffering and medicine), Pluto (death and healing), Chiron (wounded healer)',
+    colors: ['Purple', 'Brown', 'Burlap', 'Earth tones'],
+    element: 'Earth',
+    symbols: ['Crutches', 'Broom', 'Sackcloth', 'Dogs', 'Cowrie shells'],
+
+    mythology: "Babalú-Ayé, also known as Shopona or Omolu, is the Orisha of infectious disease, leprosy, and healing. His myths speak of illness endured and overcome—cast out by his father, rejected for his afflictions, he learned compassion through suffering. Dressed in sackcloth to hide his scars, accompanied by dogs who licked his wounds, he embodies the sacred truth that those who have suffered most deeply often heal most profoundly. He both brings and cures disease, teaching that illness carries medicine.",
+
+    sacred: "Babalú-Ayé governs hospitals, quarantine spaces, and anywhere the sick are isolated. He understands the loneliness of suffering and the power of compassion to heal what medicine cannot touch. His energy is especially present during plagues and pandemics—collective illness that humbles humanity.",
+
+    offerings: ['Popcorn (a symbol of transformation)', 'Toasted corn', 'Black-eyed peas', 'Purple onions', 'Cigars', 'Palm oil', 'Humble foods'],
+
+    astrological: "Babalú-Ayé walks with those who have strong Saturn-Pluto contacts, emphasized 6th or 12th houses, or Chiron prominently placed. He is the patron of healers who have been wounded, those who work with chronic illness, and anyone whose suffering has become their medicine for others.",
+
+    signsOfConnection: [
+      'Personal experience with illness or disability',
+      'Deep compassion for the suffering of others',
+      'Work in healing, medicine, or caregiving',
+      'Understanding that wounds can become wisdom',
+      'Humility born from hardship',
+      'Ability to be present with pain without flinching'
+    ],
+
+    workingWith: "To work with Babalú-Ayé is to accept suffering as a teacher without becoming its victim. He asks: What has your pain taught you? How can your scars serve others? Honor him by tending to the sick, feeding the hungry, and never looking away from suffering.",
+
+    shadow: "Babalú's shadow manifests as identifying so deeply with woundedness that healing becomes impossible, or using past suffering to justify present cruelty. He reminds us that the wounded healer must heal, not merely wound.",
+
+    integration: "Integrate Babalú's medicine by transforming your deepest wounds into your greatest gifts. Let what broke you become what allows you to hold broken things with care."
+  },
+
+  'Oshumare': {
+    name: 'Oshumare',
+    title: 'The Rainbow Serpent',
+    domain: 'Cycles, Continuity, Duality, Transformation, Rain and Rainbow',
+    planetaryLink: 'Lunar Nodes (karmic axis), Mercury (movement between worlds), Neptune (transcendence)',
+    colors: ['All colors of the rainbow', 'Iridescent', 'Green and Yellow'],
+    element: 'Water and Air (rain becoming rainbow)',
+    symbols: ['Rainbow', 'Serpent', 'Belt', 'Chain', 'Umbilical cord'],
+
+    mythology: "Oshumare is the rainbow serpent, the divine force that connects heaven and earth, Orun and Aiye. In Yoruba cosmology, the rainbow is not just beauty—it is Oshumare's body stretched between realms, carrying water from earth to sky and back again. Oshumare governs all cycles: day and night, wet season and dry, life and death. Some traditions describe Oshumare as both male and female, embodying the truth that apparent opposites are phases of one continuous whole. The serpent sheds its skin—death and rebirth in one eternal motion.",
+
+    sacred: "Oshumare's presence is most visible in rainbows, especially those that appear during rain and sunshine simultaneously. He governs the umbilical cord (the first serpent we all knew), the cycles of the moon, and the eternal return of seasons. His energy teaches that endings are beginnings, that what seems separate is connected.",
+
+    offerings: ['Rainbow-colored foods', 'Fruits', 'Honey', 'Coconut', 'Colorful beads', 'Fresh water during rainfall'],
+
+    astrological: "Oshumare resonates with the Lunar Nodes (karmic axis, eternal return), mutable signs (Gemini, Virgo, Sagittarius, Pisces), and planets changing houses or signs. He walks with those experiencing major life transitions, anyone working with cycles and patterns, and those who embody apparent contradictions.",
+
+    signsOfConnection: [
+      'Comfort with contradiction and paradox',
+      'Recognition of cyclical patterns in life',
+      'Ability to bridge seemingly opposite worlds',
+      'Fascination with transformation and metamorphosis',
+      'Attraction to rainbows, serpents, and symbols of continuity',
+      'Understanding that endings seed new beginnings'
+    ],
+
+    workingWith: "To work with Oshumare is to surrender to life's rhythms rather than resisting them. Honor him during transitions, life passages, and moments when opposites meet. Meditate on the rainbow's lesson: all colors exist within white light, all experiences within one consciousness.",
+
+    shadow: "Oshumare's shadow appears as getting trapped in endless cycles without learning their lessons, or using 'both/and' thinking to avoid necessary choices. He reminds us that while all is connected, sometimes we must choose a direction.",
+
+    integration: "Integrate Oshumare's wisdom by seeing the connections between apparent opposites in your life. What cycle is completing? What is being born from what is dying? Trust that the serpent sheds its skin because it has grown."
+  },
+
+  'Ibeji': {
+    name: 'Ibeji',
+    title: 'The Divine Twins',
+    domain: 'Sacred Duality, Inner Child, Joy, Playfulness, Balance',
+    planetaryLink: 'Gemini, 3rd House, Mercury (communication and duality), Moon (inner child)',
+    colors: ['Red and White', 'Blue and Yellow', 'Bright playful colors'],
+    element: 'Air',
+    symbols: ['Twin dolls', 'Marbles', 'Candy', 'Toys', 'Paired objects'],
+
+    mythology: "The Ibeji are the divine twins, representing the sacred bond between siblings, the duality of existence, and the eternal innocence of the child-spirit. In Yoruba tradition, twins are considered especially blessed by the divine—double portions of Ori. When one twin dies, a sacred doll is created to house their spirit. The Ibeji teach that separation is an illusion; what appears as two is always connected at the root. They embody joy, playfulness, curiosity, and the wisdom that only children possess—the wisdom of being fully present.",
+
+    sacred: "The Ibeji govern childhood, sibling relationships, and the inner child that lives in every adult. They remind us that play is sacred, that joy is a form of worship, and that curiosity is a spiritual practice. Their energy is present in laughter, games, and moments of pure delight.",
+
+    offerings: ['Candy', 'Toys', 'Sweet treats', 'Paired fruits (two bananas, two apples)', 'Flowers', 'Anything that brings joy'],
+
+    astrological: "The Ibeji resonate with strong Gemini placements, emphasized 3rd house, multiple planets in pairs or aspects, and those with actual twin siblings. They walk with anyone seeking to reconnect with their inner child, playfulness, or lost sense of wonder.",
+
+    signsOfConnection: [
+      'Deep bond with siblings or chosen family',
+      'Youthful energy regardless of chronological age',
+      'Natural playfulness and sense of fun',
+      'Ability to see both sides of situations',
+      'Inner child work or healing childhood wounds',
+      'Attraction to bright colors, games, and simple joys'
+    ],
+
+    workingWith: "To work with the Ibeji is to remember how to play, how to laugh without reason, how to be curious without agenda. Honor them by feeding your inner child—literally and metaphorically. Do something purely for joy. Let their medicine remind you that seriousness is not the same as depth.",
+
+    shadow: "The Ibeji's shadow manifests as perpetual immaturity, refusal to grow up, or using childishness to avoid responsibility. They remind us that honoring the inner child is different from being childish—one is integration, the other is avoidance.",
+
+    integration: "Integrate the Ibeji's gifts by bringing more play into your spiritual practice. What if prayer could be joyful? What if growth could be fun? Let yourself laugh at the cosmic joke: you are both ancient soul and eternal child."
+  },
+
+  'Orunmila': {
+    name: 'Orunmila',
+    title: 'Witness to Destiny',
+    domain: 'Divination, Destiny, Wisdom, Ifá, Divine Knowledge',
+    planetaryLink: 'Mercury (knowledge and communication), Jupiter (wisdom and teaching), 9th House (higher learning)',
+    colors: ['Green and Yellow', 'Brown and Ivory'],
+    element: 'Air (wisdom and intellect)',
+    symbols: ['Ifá divination tray', 'Palm nuts', 'Opele chain', 'Cowrie shells', 'Books'],
+
+    mythology: "Orunmila, also called Ifá, is the Orisha of wisdom and divination. According to mythology, Orunmila was present when each soul chose their destiny before birth—he witnessed every Ori selecting its path. He is the grand archivist of fate, the keeper of the Odu (the 256 sacred chapters of cosmic wisdom). Orunmila does not control destiny; he reveals it. His priests, the Babalawos, study for decades to interpret the patterns he shows. His wisdom is not abstract but practical—Ifá divination provides specific guidance for specific circumstances.",
+
+    sacred: "Orunmila's energy is present in all forms of divination, in the study of sacred texts, and in the moment of clarity when truth reveals itself. He governs not just mystical knowledge but practical wisdom—the kind that helps you navigate life skillfully. To consult Ifá is to ask: What did my Ori agree to before birth, and how can I fulfill it?",
+
+    offerings: ['Palm oil', 'Yams', 'Kola nuts', 'Honey', 'White cloth', 'Books and study materials'],
+
+    astrological: "Orunmila walks with those who have strong Mercury-Jupiter aspects, emphasized 9th or 3rd houses, or a gift for pattern recognition and divination. He is the patron of astrologers, tarot readers, counselors, and anyone who helps others see their path more clearly.",
+
+    signsOfConnection: [
+      'Natural gift for divination or pattern recognition',
+      'Deep respect for wisdom and learning',
+      'Ability to see the bigger picture in situations',
+      'Drawn to study sacred texts or esoteric knowledge',
+      'Serve as a counselor or guide for others',
+      'Understanding that knowledge must serve life'
+    ],
+
+    workingWith: "To work with Orunmila is to commit to the path of wisdom—not just accumulating knowledge, but embodying it. Study divination systems, whether Ifá, astrology, tarot, or any tool that reveals pattern. Ask yourself: What did I come here to learn? What did I come here to teach?",
+
+    shadow: "Orunmila's shadow appears as using knowledge to feel superior, becoming trapped in the intellectual understanding of life rather than living it, or claiming to know another's path better than they do. He reminds us that true wisdom is humble and serves others.",
+
+    integration: "Integrate Orunmila's medicine by seeking to understand your destiny while honoring your free will. Destiny is not a prison but a seed—it must be watered by choice. Let wisdom inform action, but never replace it."
+  }
+};
+
+// Cultural disclaimer for Orisha content
+const YORUBA_CULTURAL_DISCLAIMER = "The Orisha wisdom shared in Celestial Self is educational and inspirational, honoring the living Yoruba religious traditions of West Africa and the African diaspora. This content is not a substitute for traditional Ifá divination or initiated religious practice. We encourage those drawn to these teachings to seek out legitimate teachers and communities. Our intention is to introduce these profound spiritual concepts with reverence, not to appropriate or oversimplify a complex, sacred tradition.";
+
 // Ephemeris calculations are handled by `src/utils/ephemeris.js` (`getNatalChart`).
 // Legacy simplified helper functions removed to avoid duplication and unused-vars warnings.
 
@@ -63,7 +235,7 @@ const calculateAspects = (positions) => {
     for (let j = i + 1; j < positions.length; j++) {
       const diff = Math.abs(positions[i].longitude - positions[j].longitude);
       const angle = Math.min(diff, 360 - diff);
-      
+
       for (const [name, aspect] of Object.entries(ASPECTS)) {
         if (Math.abs(angle - aspect.angle) <= aspect.orb) {
           aspects.push({
@@ -79,6 +251,157 @@ const calculateAspects = (positions) => {
     }
   }
   return aspects;
+};
+
+// Which Orisha Walks With You? - Quiz Logic
+// Analyzes natal chart to determine strongest Orisha connections
+const calculateOrishaAffinities = (positions, birthData) => {
+  const scores = {
+    'Nana Buruku': { score: 0, reasons: [] },
+    'Babalú-Ayé': { score: 0, reasons: [] },
+    'Oshumare': { score: 0, reasons: [] },
+    'Ibeji': { score: 0, reasons: [] },
+    'Orunmila': { score: 0, reasons: [] },
+    'Shango': { score: 0, reasons: [] },
+    'Yemaya': { score: 0, reasons: [] },
+    'Eshu': { score: 0, reasons: [] },
+    'Oshun': { score: 0, reasons: [] },
+    'Ogun': { score: 0, reasons: [] },
+    'Obatala': { score: 0, reasons: [] },
+    'Oya': { score: 0, reasons: [] },
+    'Olokun': { score: 0, reasons: [] },
+    'Iku': { score: 0, reasons: [] }
+  };
+
+  if (!positions || positions.length === 0) return [];
+
+  // Count planets in each house
+  const houseCounts = {};
+  positions.forEach(p => {
+    houseCounts[p.house] = (houseCounts[p.house] || 0) + 1;
+  });
+
+  // Calculate elemental balance
+  const elementCounts = { fire: 0, earth: 0, air: 0, water: 0 };
+  positions.forEach(p => {
+    const element = ELEMENTS[p.sign];
+    if (element) elementCounts[element]++;
+  });
+
+  // Score based on planetary placements (primary Orishas)
+  positions.forEach(p => {
+    const orisha = ORISHA_CORRESPONDENCES[p.planet]?.orisha;
+    if (orisha && scores[orisha]) {
+      scores[orisha].score += 10;
+      scores[orisha].reasons.push(`${p.planet} in ${p.sign} connects you to ${orisha}'s energy`);
+    }
+  });
+
+  // Nana Buruku - Ancestral houses (4th, 8th, 12th), Moon in Scorpio, strong Saturn
+  const moon = positions.find(p => p.planet === 'Moon');
+  const saturn = positions.find(p => p.planet === 'Saturn');
+
+  if (moon && moon.sign === 'Scorpio') {
+    scores['Nana Buruku'].score += 15;
+    scores['Nana Buruku'].reasons.push('Moon in Scorpio - deep ancestral connection');
+  }
+  if (moon && moon.house === 8) {
+    scores['Nana Buruku'].score += 12;
+    scores['Nana Buruku'].reasons.push('Moon in 8th house - psychic and transformative gifts');
+  }
+  if ((houseCounts[4] || 0) >= 2) {
+    scores['Nana Buruku'].score += 8;
+    scores['Nana Buruku'].reasons.push('Strong 4th house - ancestral wisdom keeper');
+  }
+  if ((houseCounts[12] || 0) >= 2) {
+    scores['Nana Buruku'].score += 10;
+    scores['Nana Buruku'].reasons.push('Strong 12th house - connection to spirit realm');
+  }
+  if (saturn && (houseCounts[saturn.house] || 0) >= 2) {
+    scores['Nana Buruku'].score += 7;
+    scores['Nana Buruku'].reasons.push('Strong Saturn placement - wisdom through time');
+  }
+
+  // Babalú-Ayé - 6th house, 12th house, Saturn-Pluto contacts, Chiron
+  if ((houseCounts[6] || 0) >= 2) {
+    scores['Babalú-Ayé'].score += 12;
+    scores['Babalú-Ayé'].reasons.push('Strong 6th house - healer and servant');
+  }
+  if ((houseCounts[12] || 0) >= 2) {
+    scores['Babalú-Ayé'].score += 10;
+    scores['Babalú-Ayé'].reasons.push('Strong 12th house - compassion for suffering');
+  }
+  const pluto = positions.find(p => p.planet === 'Pluto');
+  if (saturn && pluto && Math.abs(saturn.house - pluto.house) <= 1) {
+    scores['Babalú-Ayé'].score += 15;
+    scores['Babalú-Ayé'].reasons.push('Saturn-Pluto connection - wounded healer archetype');
+  }
+
+  // Oshumare - Mutable signs, Nodes, transitions
+  const mutableSigns = ['Gemini', 'Virgo', 'Sagittarius', 'Pisces'];
+  const mutableCount = positions.filter(p => mutableSigns.includes(p.sign)).length;
+  if (mutableCount >= 4) {
+    scores['Oshumare'].score += 12;
+    scores['Oshumare'].reasons.push('Strong mutable energy - master of transitions and cycles');
+  }
+  const mercury = positions.find(p => p.planet === 'Mercury');
+  const neptune = positions.find(p => p.planet === 'Neptune');
+  if (mercury && neptune && Math.abs(mercury.longitude - neptune.longitude) < 10) {
+    scores['Oshumare'].score += 13;
+    scores['Oshumare'].reasons.push('Mercury-Neptune - bridge between worlds');
+  }
+
+  // Ibeji - Gemini placements, 3rd house, paired aspects
+  const geminiPlanets = positions.filter(p => p.sign === 'Gemini').length;
+  if (geminiPlanets >= 2) {
+    scores['Ibeji'].score += 15;
+    scores['Ibeji'].reasons.push('Multiple planets in Gemini - twin energy and duality');
+  }
+  if ((houseCounts[3] || 0) >= 2) {
+    scores['Ibeji'].score += 12;
+    scores['Ibeji'].reasons.push('Strong 3rd house - communication and sibling bonds');
+  }
+  if (moon && moon.sign === 'Gemini') {
+    scores['Ibeji'].score += 10;
+    scores['Ibeji'].reasons.push('Moon in Gemini - inner child seeks play and curiosity');
+  }
+
+  // Orunmila - 9th house, 3rd house, Mercury-Jupiter, wisdom seekers
+  if ((houseCounts[9] || 0) >= 2) {
+    scores['Orunmila'].score += 15;
+    scores['Orunmila'].reasons.push('Strong 9th house - seeker of higher wisdom');
+  }
+  const jupiter = positions.find(p => p.planet === 'Jupiter');
+  if (mercury && jupiter && Math.abs(mercury.longitude - jupiter.longitude) < 12) {
+    scores['Orunmila'].score += 14;
+    scores['Orunmila'].reasons.push('Mercury-Jupiter aspect - wisdom communicator');
+  }
+  if (mercury && mercury.sign === 'Sagittarius') {
+    scores['Orunmila'].score += 10;
+    scores['Orunmila'].reasons.push('Mercury in Sagittarius - philosophical mind');
+  }
+
+  // Boost scores for primary planet Orishas (Sun, Moon prominence)
+  const sun = positions.find(p => p.planet === 'Sun');
+  if (sun) {
+    scores['Shango'].score += 5; // Everyone has Sun, but it's their core
+  }
+  if (moon) {
+    scores['Yemaya'].score += 5; // Everyone has Moon, emotional core
+  }
+
+  // Convert to array and sort by score
+  const results = Object.entries(scores)
+    .map(([name, data]) => ({
+      orisha: name,
+      score: data.score,
+      reasons: data.reasons
+    }))
+    .filter(r => r.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3); // Top 3 Orishas
+
+  return results;
 };
 
 // Moon phase calculation
@@ -1677,6 +2000,277 @@ const JournalScreen = ({ userData, chartData, entries, setEntries }) => {
   );
 };
 
+// Orisha Wisdom Screen - Extended Orisha profiles and quiz
+const OrishaWisdomScreen = ({ userData, chartData }) => {
+  const [selectedOrisha, setSelectedOrisha] = useState(null);
+  const [showQuizResults, setShowQuizResults] = useState(false);
+  const [orishaAffinities, setOrishaAffinities] = useState([]);
+
+  useEffect(() => {
+    if (chartData && chartData.positions) {
+      const affinities = calculateOrishaAffinities(chartData.positions, userData);
+      setOrishaAffinities(affinities);
+    }
+  }, [chartData, userData]);
+
+  const handleTakeQuiz = () => {
+    setShowQuizResults(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const extendedOrishasList = Object.keys(EXTENDED_ORISHA_PROFILES);
+
+  return (
+    <div className="fade-in">
+      <h1 style={{ ...styles.greeting, marginBottom: '16px' }}>Orisha Wisdom</h1>
+      <p style={{ ...styles.text, fontSize: '16px', marginBottom: '32px', fontStyle: 'italic' }}>
+        Beyond the Planetary Correspondences
+      </p>
+
+      {/* Cultural Disclaimer */}
+      <div style={{
+        ...styles.card,
+        backgroundColor: '#252030',
+        borderLeft: '4px solid #c9a0dc',
+        marginBottom: '32px'
+      }}>
+        <p style={{ ...styles.text, fontSize: '14px', lineHeight: 1.7 }}>
+          {YORUBA_CULTURAL_DISCLAIMER}
+        </p>
+      </div>
+
+      {/* Which Orisha Walks With You? Quiz */}
+      {!showQuizResults && chartData && (
+        <div style={{ ...styles.card, textAlign: 'center', marginBottom: '32px' }}>
+          <h2 style={{ ...styles.sectionTitle, marginBottom: '16px' }}>
+            Which Orisha Walks With You?
+          </h2>
+          <p style={{ ...styles.text, marginBottom: '24px' }}>
+            Based on your natal chart, discover which Orishas resonate most deeply with your spiritual path.
+          </p>
+          <button
+            style={{
+              ...styles.button,
+              padding: '16px 32px',
+              fontSize: '16px',
+              fontWeight: 'bold'
+            }}
+            onClick={handleTakeQuiz}
+          >
+            Reveal Your Orisha Connections
+          </button>
+        </div>
+      )}
+
+      {/* Quiz Results */}
+      {showQuizResults && orishaAffinities.length > 0 && (
+        <div style={{ marginBottom: '48px' }}>
+          <h2 style={{ ...styles.sectionTitle, marginBottom: '24px', textAlign: 'center' }}>
+            Your Orisha Connections
+          </h2>
+          {orishaAffinities.map((affinity, index) => {
+            const profile = EXTENDED_ORISHA_PROFILES[affinity.orisha] || {};
+            return (
+              <div
+                key={affinity.orisha}
+                style={{
+                  ...styles.card,
+                  marginBottom: '24px',
+                  backgroundColor: index === 0 ? '#2d2438' : '#1a1520',
+                  borderLeft: index === 0 ? '4px solid #c9a0dc' : '4px solid #7b6b9e'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+                  <span style={{
+                    fontSize: '32px',
+                    marginRight: '16px',
+                    color: '#c9a0dc'
+                  }}>
+                    {index === 0 ? '👑' : index === 1 ? '✨' : '🌟'}
+                  </span>
+                  <div>
+                    <h3 style={{ ...styles.cardTitle, margin: 0 }}>
+                      {affinity.orisha}
+                    </h3>
+                    <p style={{ ...styles.text, fontSize: '14px', fontStyle: 'italic', margin: '4px 0 0 0', opacity: 0.8 }}>
+                      {profile.title || ''}
+                    </p>
+                  </div>
+                </div>
+                <p style={{ ...styles.text, marginBottom: '12px' }}>
+                  <strong style={{ color: '#c9a0dc' }}>Connection Strength:</strong> {affinity.score} points
+                </p>
+                <p style={{ ...styles.text, marginBottom: '8px' }}>
+                  <strong style={{ color: '#c9a0dc' }}>Why {affinity.orisha} walks with you:</strong>
+                </p>
+                <ul style={{ ...styles.text, paddingLeft: '20px', margin: 0 }}>
+                  {affinity.reasons.map((reason, idx) => (
+                    <li key={idx} style={{ marginBottom: '6px' }}>{reason}</li>
+                  ))}
+                </ul>
+                {profile.domain && (
+                  <p style={{ ...styles.text, marginTop: '16px', fontStyle: 'italic', opacity: 0.9 }}>
+                    Domain: {profile.domain}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Extended Orisha Profiles */}
+      <h2 style={{ ...styles.sectionTitle, marginBottom: '24px', textAlign: 'center' }}>
+        The Extended Pantheon
+      </h2>
+      <p style={{ ...styles.text, textAlign: 'center', marginBottom: '32px' }}>
+        Five Orishas beyond the primary planetary correspondences, each offering unique wisdom for your journey.
+      </p>
+
+      {extendedOrishasList.map(orishaName => {
+        const profile = EXTENDED_ORISHA_PROFILES[orishaName];
+        const isSelected = selectedOrisha === orishaName;
+
+        return (
+          <div
+            key={orishaName}
+            style={{
+              ...styles.card,
+              marginBottom: '20px',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+            onClick={() => setSelectedOrisha(isSelected ? null : orishaName)}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <div>
+                <h3 style={{ ...styles.cardTitle, margin: 0 }}>
+                  {profile.name}
+                </h3>
+                <p style={{ ...styles.text, fontSize: '14px', fontStyle: 'italic', margin: '4px 0 0 0', opacity: 0.8 }}>
+                  {profile.title}
+                </p>
+              </div>
+              <span style={{ fontSize: '24px', color: '#c9a0dc' }}>
+                {isSelected ? '▼' : '▶'}
+              </span>
+            </div>
+
+            {/* Always visible summary */}
+            <p style={{ ...styles.text, marginBottom: '8px' }}>
+              <strong style={{ color: '#c9a0dc' }}>Domain:</strong> {profile.domain}
+            </p>
+            <p style={{ ...styles.text, marginBottom: '8px' }}>
+              <strong style={{ color: '#c9a0dc' }}>Planetary Link:</strong> {profile.planetaryLink}
+            </p>
+
+            {/* Expandable detailed content */}
+            {isSelected && (
+              <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #5c4d7a' }}>
+                {/* Colors & Element */}
+                <div style={{ marginBottom: '20px' }}>
+                  <p style={{ ...styles.text, marginBottom: '8px' }}>
+                    <strong style={{ color: '#c9a0dc' }}>Colors:</strong> {profile.colors.join(', ')}
+                  </p>
+                  <p style={{ ...styles.text, marginBottom: '8px' }}>
+                    <strong style={{ color: '#c9a0dc' }}>Element:</strong> {profile.element}
+                  </p>
+                  <p style={{ ...styles.text }}>
+                    <strong style={{ color: '#c9a0dc' }}>Symbols:</strong> {profile.symbols.join(', ')}
+                  </p>
+                </div>
+
+                {/* Mythology */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Sacred Mythology
+                  </h4>
+                  <p style={{ ...styles.text, lineHeight: 1.7 }}>
+                    {profile.mythology}
+                  </p>
+                </div>
+
+                {/* Sacred Teachings */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Sacred Teachings
+                  </h4>
+                  <p style={{ ...styles.text, lineHeight: 1.7 }}>
+                    {profile.sacred}
+                  </p>
+                </div>
+
+                {/* Astrological Connections */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Astrological Resonance
+                  </h4>
+                  <p style={{ ...styles.text, lineHeight: 1.7 }}>
+                    {profile.astrological}
+                  </p>
+                </div>
+
+                {/* Signs of Connection */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Signs {profile.name} Walks With You
+                  </h4>
+                  <ul style={{ ...styles.text, paddingLeft: '20px', lineHeight: 1.7 }}>
+                    {profile.signsOfConnection.map((sign, idx) => (
+                      <li key={idx} style={{ marginBottom: '8px' }}>{sign}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Offerings */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Sacred Offerings
+                  </h4>
+                  <p style={{ ...styles.text }}>
+                    {profile.offerings.join(' • ')}
+                  </p>
+                </div>
+
+                {/* Working With */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Working With {profile.name}
+                  </h4>
+                  <p style={{ ...styles.text, lineHeight: 1.7 }}>
+                    {profile.workingWith}
+                  </p>
+                </div>
+
+                {/* Shadow */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Shadow Work
+                  </h4>
+                  <p style={{ ...styles.text, lineHeight: 1.7 }}>
+                    {profile.shadow}
+                  </p>
+                </div>
+
+                {/* Integration */}
+                <div>
+                  <h4 style={{ ...styles.text, fontWeight: 'bold', color: '#c9a0dc', marginBottom: '12px' }}>
+                    Integration Practice
+                  </h4>
+                  <p style={{ ...styles.text, lineHeight: 1.7 }}>
+                    {profile.integration}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 // Settings Screen
 const SettingsScreen = ({ userData, setUserData, onLogout, settings, setSettings }) => {
 
@@ -1952,6 +2546,7 @@ export default function CelestialSelf() {
   const navItems = [
     { id: 'daily', label: 'Daily Insights', icon: 'sun' },
     { id: 'natal', label: 'Natal Chart', icon: 'star-chart' },
+    { id: 'orisha', label: 'Orisha Wisdom', icon: 'crown' },
     { id: 'journal', label: 'Cosmic Journal', icon: 'book-open' },
     { id: 'settings', label: 'Settings', icon: 'settings' }
   ];
@@ -2008,17 +2603,20 @@ export default function CelestialSelf() {
           {activeScreen === 'natal' && chartData && (
             <NatalScreen userData={userData} chartData={chartData} />
           )}
+          {activeScreen === 'orisha' && chartData && (
+            <OrishaWisdomScreen userData={userData} chartData={chartData} />
+          )}
           {activeScreen === 'journal' && chartData && (
-            <JournalScreen 
-              userData={userData} 
-              chartData={chartData} 
+            <JournalScreen
+              userData={userData}
+              chartData={chartData}
               entries={journalEntries}
               setEntries={setJournalEntries}
             />
           )}
           {activeScreen === 'settings' && (
-            <SettingsScreen 
-              userData={userData} 
+            <SettingsScreen
+              userData={userData}
               setUserData={setUserData}
               onLogout={handleLogout}
               settings={settings}
