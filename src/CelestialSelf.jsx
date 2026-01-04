@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useMemo,  } from 'react';
+import { getNatalChart } from './utils/ephemeris.js';
+import { geocodeCity } from './utils/geocode.js';
+import { fetchNatalChartFromApi } from './utils/ephemerisApi.js';
 
 // ============================================================================
 // CELESTIAL SELF - Personal Astrology Companion
@@ -8,12 +11,10 @@ import React, { useState, useEffect, useMemo,  } from 'react';
 // Ephemeris calculation utilities (simplified for browser)
 const ZODIAC_SIGNS = [
   'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-  'Libitha', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
 ];
-// Fix typo
-ZODIAC_SIGNS[6] = 'Libra';
 
-const PLANETS = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+// Planet list is provided by ephemeris utilities when needed.
 
 const ASPECTS = {
   conjunction: { angle: 0, orb: 8, symbol: '☌', nature: 'major' },
@@ -53,64 +54,8 @@ const ORISHA_CORRESPONDENCES = {
   Pluto: { orisha: 'Iku', domain: 'Transformation', traits: 'death/rebirth, deep change, power, regeneration' }
 };
 
-// Simplified ephemeris calculations
-const calculateSunSign = (month, day) => {
-  const dates = [
-    [3, 21], [4, 20], [5, 21], [6, 21], [7, 23], [8, 23],
-    [9, 23], [10, 23], [11, 22], [12, 22], [1, 20], [2, 19]
-  ];
-  for (let i = 0; i < 12; i++) {
-    const [m, d] = dates[i];
-    const [nm, nd] = dates[(i + 1) % 12];
-    if ((month === m && day >= d) || (month === nm && day < nd)) {
-      return ZODIAC_SIGNS[i];
-    }
-  }
-  return ZODIAC_SIGNS[9]; // Capricorn default
-};
-
-const calculateMoonSign = (birthDate, birthTime) => {
-  // Simplified moon calculation based on lunar cycle
-  const date = new Date(birthDate + 'T' + (birthTime || '12:00'));
-  const days = Math.floor(date.getTime() / (1000 * 60 * 60 * 24));
-  const moonCycle = days % 27.3; // Approximate moon sign cycle
-  return ZODIAC_SIGNS[Math.floor((moonCycle / 27.3) * 12) % 12];
-};
-
-const calculateRising = (birthTime, birthDate) => {
-  if (!birthTime) return 'Unknown';
-  const [hours, minutes] = birthTime.split(':').map(Number);
-  const date = new Date(birthDate);
-  const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-  const risingIndex = Math.floor(((hours + minutes / 60 + dayOfYear * 0.0657) / 2) % 12);
-  return ZODIAC_SIGNS[risingIndex];
-};
-
-const calculatePlanetPositions = (birthDate, birthTime) => {
-  const date = new Date(birthDate + 'T' + (birthTime || '12:00'));
-  const days = Math.floor(date.getTime() / (1000 * 60 * 60 * 24));
-  
-  // Orbital periods in days (approximate)
-  const periods = {
-    Sun: 365.25, Moon: 27.3, Mercury: 88, Venus: 225, Mars: 687,
-    Jupiter: 4333, Saturn: 10759, Uranus: 30687, Neptune: 60190, Pluto: 90560
-  };
-  
-  return PLANETS.map(planet => {
-    const cycle = (days / periods[planet]) % 1;
-    const signIndex = Math.floor(cycle * 12);
-    const degree = Math.floor((cycle * 360) % 30);
-    const retrograde = planet !== 'Sun' && planet !== 'Moon' && Math.random() < 0.15;
-    return {
-      planet,
-      sign: ZODIAC_SIGNS[signIndex],
-      degree,
-      house: (signIndex % 12) + 1,
-      retrograde,
-      longitude: signIndex * 30 + degree
-    };
-  });
-};
+// Ephemeris calculations are handled by `src/utils/ephemeris.js` (`getNatalChart`).
+// Legacy simplified helper functions removed to avoid duplication and unused-vars warnings.
 
 const calculateAspects = (positions) => {
   const aspects = [];
@@ -218,6 +163,154 @@ const getInterpretation = (type, data) => {
         synthesis: "Your Ori chose immersion in the All. The danger is losing yourself; the gift is finding the Self that includes everything. Let Iwa-Pele anchor your oceanic soul."
       }
     },
+    moonSign: {
+      Aries: {
+        western: "Your Moon in Aries brings emotional fire to your inner world. You feel deeply and react quickly, with instincts that demand immediate action. Your emotional security comes from independence and the freedom to pursue what sets your heart ablaze. When hurt, you may lash out before processing, but your emotional honesty is a gift that cuts through pretense.",
+        yoruba: "Shango's warrior spirit lives in your emotional core. Like the thunder god who acts decisively, your feelings demand expression. Yemaya's nurturing waters temper this fire, teaching you that emotional strength includes vulnerability. Your Ori chose this placement to learn that true courage includes feeling deeply.",
+        synthesis: "Your emotional nature is a sacred fire that illuminates truth. The challenge is balancing Aries' directness with emotional intelligence. When you honor your feelings as valid messengers, you become a beacon for others learning to express their authentic emotional fire.",
+        shadowWork: "The shadow of Aries Moon lies in emotional impulsivity. Practice pausing before reacting—your feelings are valid, but timing matters. Learn to distinguish between emotional fire that destroys and that which purifies and transforms."
+      },
+      Taurus: {
+        western: "Your Moon in Taurus creates an emotional foundation of stability and sensuality. You need tangible security and comfort to feel emotionally safe. Your feelings develop slowly but deeply, like roots growing into rich soil. You express love through physical presence and creating beauty in your environment.",
+        yoruba: "The Earth's patient wisdom flows through your emotional veins. Like Oshun who appreciates life's sensual pleasures, you find emotional security in the material world. Yemaya's waters remind you that true wealth includes emotional generosity. Your Ori chose this placement to teach that emotional stability creates space for others to feel safe.",
+        synthesis: "Your emotional world is a garden that requires consistent nurturing. The Taurus Moon teaches that emotional security is built through steady attention to what truly nourishes your soul. When you honor your need for comfort, you create sanctuary for yourself and others.",
+        shadowWork: "The shadow of Taurus Moon manifests as emotional stubbornness or possessiveness. Practice releasing what no longer serves your growth. Remember that true security comes from within, not from external possessions or people."
+      },
+      Gemini: {
+        western: "Your Moon in Gemini dances through a kaleidoscope of emotions, bringing curiosity and adaptability to your inner world. You process feelings through conversation and mental exploration. Emotional security comes from intellectual connection and the freedom to explore multiple perspectives. You may feel emotionally restless if confined to one emotional state.",
+        yoruba: "Eshu's trickster energy plays in your emotional landscape. Like the messenger who carries words between worlds, your feelings find expression through communication. Yemaya's depths remind you that some emotions require silence. Your Ori chose this placement to learn that emotional intelligence includes listening as well as speaking.",
+        synthesis: "Your emotional nature is a bridge between heart and mind. The Gemini Moon teaches that feelings are information, not just experiences. When you honor your need for mental-emotional flexibility, you become a translator of complex emotional experiences for others.",
+        shadowWork: "The shadow of Gemini Moon appears as emotional superficiality or avoidance of deep feeling. Practice sitting with uncomfortable emotions without immediately analyzing or verbalizing them. Learn that some feelings deepen through quiet contemplation."
+      },
+      Cancer: {
+        western: "Your Moon in Cancer dives deep into the ocean of emotions, making you the natural caretaker of feelings. Your emotional world is rich and intuitive, with instincts that protect and nurture. You feel most secure in environments that feel like home, with people who honor emotional vulnerability. Your empathy can feel like a superpower and a burden.",
+        yoruba: "Yemaya's maternal waters are your emotional home. Like the Great Mother who holds all emotions in her embrace, you carry the wisdom of emotional memory. Your Ori chose this placement to be the emotional anchor for your community. Remember that your sensitivity is sacred medicine.",
+        synthesis: "Your emotional nature is a healing sanctuary. The Cancer Moon teaches that vulnerability is strength, not weakness. When you honor your emotional depth, you create safe spaces for authentic emotional expression in your relationships and community.",
+        shadowWork: "The shadow of Cancer Moon manifests as emotional manipulation or retreat into victimhood. Practice setting boundaries while maintaining empathy. Learn to distinguish between your emotions and others', remembering that you are not responsible for healing everyone."
+      },
+      Leo: {
+        western: "Your Moon in Leo brings dramatic warmth and generosity to your emotional world. You feel emotions vividly and express them with creative flair. Emotional security comes from being seen, appreciated, and celebrated. You may struggle when your emotional needs feel overlooked, but your capacity for joy and loyalty is a gift to those you love.",
+        yoruba: "Shango's royal fire illuminates your emotional core. Like the king who rules with both authority and generosity, your feelings demand recognition. Yemaya's nurturing waters balance this fire, teaching that true leadership includes emotional intelligence. Your Ori chose this placement to learn that emotional warmth creates community.",
+        synthesis: "Your emotional nature is a radiant sun that warms others. The Leo Moon teaches that healthy emotional expression includes both strength and vulnerability. When you honor your need for appreciation, you inspire others to express their emotional light.",
+        shadowWork: "The shadow of Leo Moon appears as emotional drama or need for constant validation. Practice finding internal sources of emotional security. Learn that your worth is not dependent on others' recognition, though appreciation when genuine is nourishing."
+      },
+      Virgo: {
+        western: "Your Moon in Virgo brings analytical precision to your emotional world. You process feelings through service and practical problem-solving. Emotional security comes from order, health, and being useful. You may intellectualize emotions to maintain control, but your capacity for empathetic service creates healing spaces.",
+        yoruba: "Osanyin's herbal wisdom flows through your emotional responses. Like the healer who sees patterns in illness, you intuitively understand emotional imbalances. Yemaya's waters remind you that healing includes emotional acceptance. Your Ori chose this placement to serve through emotional intelligence.",
+        synthesis: "Your emotional nature is a healing garden. The Virgo Moon teaches that emotions are information requiring appropriate response. When you honor your need for emotional order, you create systems for emotional well-being that benefit your community.",
+        shadowWork: "The shadow of Virgo Moon manifests as emotional perfectionism or critical self-judgment. Practice accepting emotions as they are, without immediately trying to fix or analyze them. Learn that emotional health includes imperfection."
+      },
+      Libra: {
+        western: "Your Moon in Libra seeks emotional harmony and balance in all relationships. You feel most secure in partnerships that honor equality and beauty. Your emotions flow through diplomatic expression, and you may avoid conflict to maintain peace. Your capacity for empathy and fairness creates bridges between differing emotional needs.",
+        yoruba: "Oshun's balancing wisdom dances in your emotional core. Like the river goddess who negotiates between banks, you intuitively seek harmony. Yemaya's depths remind you that true balance includes your own needs. Your Ori chose this placement to mediate emotional conflicts with grace.",
+        synthesis: "Your emotional nature is a balancing scale. The Libra Moon teaches that healthy relationships require both giving and receiving. When you honor your need for emotional equity, you create partnerships based on mutual respect and understanding.",
+        shadowWork: "The shadow of Libra Moon appears as emotional codependency or avoidance of necessary conflict. Practice expressing your needs directly while maintaining compassion. Learn that true harmony includes honest emotional expression."
+      },
+      Scorpio: {
+        western: "Your Moon in Scorpio plunges into emotional depths where others fear to swim. You feel emotions with intense power and seek profound intimacy. Emotional security comes from trust and transformative experiences. Your emotional intensity can be overwhelming, but it carries the gift of deep healing and regeneration.",
+        yoruba: "Oya's transformative winds sweep through your emotional landscape. Like the guardian of transitions, you navigate emotional deaths and rebirths. Yemaya's waters hold space for your depths. Your Ori chose this placement to transform emotional pain into wisdom.",
+        synthesis: "Your emotional nature is a phoenix fire. The Scorpio Moon teaches that emotional intensity is a path to profound healing. When you honor your need for emotional depth, you become a guide for others through their own transformative journeys.",
+        shadowWork: "The shadow of Scorpio Moon manifests as emotional manipulation or fear of vulnerability. Practice trusting gradual emotional intimacy. Learn that true power comes from emotional authenticity, not control."
+      },
+      Sagittarius: {
+        western: "Your Moon in Sagittarius brings philosophical freedom to your emotional world. You process feelings through meaning-making and exploration. Emotional security comes from purpose and the ability to learn from experiences. You may intellectualize emotions to maintain optimism, but your capacity for emotional generosity inspires others.",
+        yoruba: "Orunmila's questing wisdom lives in your emotional responses. Like the sage who seeks truth beyond horizons, you find emotional freedom through understanding. Yemaya's waters ground your explorations. Your Ori chose this placement to expand emotional horizons.",
+        synthesis: "Your emotional nature is a compass pointing toward meaning. The Sagittarius Moon teaches that emotions are teachers guiding your soul's journey. When you honor your need for emotional purpose, you inspire others to find meaning in their experiences.",
+        shadowWork: "The shadow of Sagittarius Moon appears as emotional restlessness or avoidance of painful feelings. Practice staying present with discomfort long enough to learn from it. Learn that true freedom includes emotional depth, not just breadth."
+      },
+      Capricorn: {
+        western: "Your Moon in Capricorn brings disciplined structure to your emotional world. You process feelings through responsible action and long-term planning. Emotional security comes from achievement and the ability to provide. Your emotional reserve may seem cold, but it protects a deep capacity for loyal love and practical care.",
+        yoruba: "Obatala's patient wisdom shapes your emotional responses. Like the creator who builds with care, you approach emotions with responsibility. Yemaya's waters soften your structures. Your Ori chose this placement to build emotional foundations that endure.",
+        synthesis: "Your emotional nature is a mountain peak. The Capricorn Moon teaches that emotional maturity develops through time and experience. When you honor your need for emotional structure, you create lasting emotional security for yourself and loved ones.",
+        shadowWork: "The shadow of Capricorn Moon manifests as emotional repression or workaholism. Practice allowing emotions to exist without immediate action. Learn that vulnerability is not weakness, but the foundation of true strength."
+      },
+      Aquarius: {
+        western: "Your Moon in Aquarius brings innovative detachment to your emotional world. You process feelings through intellectual analysis and humanitarian concern. Emotional security comes from community and shared ideals. Your emotional style may seem unconventional, but your capacity for objective empathy serves collective healing.",
+        yoruba: "Shango's revolutionary fire and Oya's winds combine in your emotional core. Like the reformer who serves the collective, you feel for humanity's wounds. Yemaya's waters remind you of individual emotional needs. Your Ori chose this placement to heal through innovation.",
+        synthesis: "Your emotional nature is a collective heartbeat. The Aquarius Moon teaches that personal emotions connect to larger human experiences. When you honor your need for emotional community, you contribute to collective emotional healing.",
+        shadowWork: "The shadow of Aquarius Moon appears as emotional detachment or intellectualization. Practice feeling emotions in your body, not just analyzing them. Learn that true innovation includes emotional presence."
+      },
+      Pisces: {
+        western: "Your Moon in Pisces dissolves into the cosmic ocean of emotions. You feel everything deeply and intuitively, with boundaries that blur between self and other. Emotional security comes from spiritual connection and creative expression. Your empathy can feel boundless, carrying both the gift of compassion and the challenge of boundaries.",
+        yoruba: "Olokun's fathomless depths mirror your emotional world. Like the ocean deity who holds ancient wisdom, you navigate emotional currents beyond words. Yemaya's maternal waters are your emotional home. Your Ori chose this placement to experience emotional unity.",
+        synthesis: "Your emotional nature is a cosmic ocean. The Pisces Moon teaches that emotions connect us to the divine. When you honor your need for emotional-spiritual connection, you become a channel for universal compassion and healing.",
+        shadowWork: "The shadow of Pisces Moon manifests as emotional overwhelm or escapism. Practice setting boundaries while maintaining empathy. Learn to distinguish between your emotions and others', remembering that you are a vessel, not a bottomless container."
+      }
+    },
+    risingSign: {
+      Aries: {
+        western: "Your Aries Rising presents a bold, pioneering facade to the world. You appear confident and action-oriented, with a physical presence that commands attention. Others see you as courageous and independent, often underestimating your sensitivity beneath the warrior exterior. Your first impressions are memorable and energetic.",
+        yoruba: "Shango's thunder announces your arrival. Your Ori chose this mask to teach leadership through action. The world sees your fire, but your inner waters run deep. Remember that true warriors protect the vulnerable.",
+        synthesis: "Your rising sign is the Hero's mask. Aries Rising teaches that true courage includes vulnerability. When you balance your bold presentation with authentic emotional expression, you become a leader who inspires through both strength and heart.",
+        lifeThemes: "Learning to initiate without aggression, balancing independence with interdependence, channeling your natural leadership into service rather than conquest."
+      },
+      Taurus: {
+        western: "Your Taurus Rising presents a grounded, sensual presence that conveys stability and reliability. You appear patient and practical, with a physical beauty that suggests both strength and comfort. Others trust you instinctively, seeing you as someone who can be counted on. Your movements are deliberate and your voice carries calm authority.",
+        yoruba: "The Earth's steady wisdom shapes your worldly presentation. Like Oshun who appreciates life's pleasures, you appear as someone who knows how to enjoy and preserve beauty. Your Ori chose this mask to teach that true stability includes generosity.",
+        synthesis: "Your rising sign is the Builder's foundation. Taurus Rising teaches that reliability creates safety for growth. When you honor both your need for security and your capacity for generosity, you become a steady anchor in others' lives.",
+        lifeThemes: "Building lasting structures, appreciating sensual pleasures without attachment, learning that patience is power, creating beauty that serves others."
+      },
+      Gemini: {
+        western: "Your Gemini Rising presents a curious, communicative facade that suggests intelligence and adaptability. You appear youthful and engaging, with quick movements and expressive features. Others see you as witty and approachable, often underestimating your depth beneath the social exterior. Your curiosity draws people in and keeps conversations flowing.",
+        yoruba: "Eshu's clever energy dances in your presentation. Like the trickster who knows many paths, you appear as someone who can navigate any situation. Your Ori chose this mask to teach that communication is sacred technology.",
+        synthesis: "Your rising sign is the Messenger's bridge. Gemini Rising teaches that curiosity opens doors. When you balance your mental agility with emotional presence, you become a translator between different worlds and perspectives.",
+        lifeThemes: "Communicating with clarity and compassion, learning when to speak and when to listen, synthesizing diverse ideas, using your adaptability to serve connection rather than manipulation."
+      },
+      Cancer: {
+        western: "Your Cancer Rising presents a nurturing, intuitive presence that suggests emotional depth and care. You appear approachable and sensitive, with soft features and protective energy. Others feel safe around you, sensing your capacity for empathy. Your intuition guides your interactions, creating warm and welcoming first impressions.",
+        yoruba: "Yemaya's maternal waters shape your worldly face. Like the Great Mother who holds all in embrace, you appear as someone who can nurture and protect. Your Ori chose this mask to teach that vulnerability is strength.",
+        synthesis: "Your rising sign is the Caretaker's sanctuary. Cancer Rising teaches that emotional intelligence is magnetic. When you honor your sensitivity as wisdom rather than weakness, you create safe spaces for authentic human connection.",
+        lifeThemes: "Setting boundaries while maintaining empathy, trusting intuition in practical matters, balancing nurturing others with self-care, learning that emotional availability creates community."
+      },
+      Leo: {
+        western: "Your Leo Rising presents a radiant, charismatic presence that commands attention and admiration. You appear confident and creative, with a physical presence that suggests leadership and warmth. Others are drawn to your light, seeing you as someone special and worthy of celebration. Your generosity and loyalty shine through in first interactions.",
+        yoruba: "Shango's royal fire illuminates your worldly presentation. Like the king who rules with generosity, you appear as someone destined for recognition. Your Ori chose this mask to teach that true leadership serves the people.",
+        synthesis: "Your rising sign is the Performer's stage. Leo Rising teaches that your light is meant to be seen. When you balance personal radiance with genuine care for others, you become a leader who inspires through warmth and creativity.",
+        lifeThemes: "Using your charisma for service rather than ego, learning to receive appreciation gracefully, balancing self-expression with consideration for others, remembering that true royalty serves."
+      },
+      Virgo: {
+        western: "Your Virgo Rising presents a competent, helpful presence that suggests reliability and attention to detail. You appear practical and service-oriented, with a physical presence that conveys quiet strength and capability. Others trust your judgment and appreciate your willingness to assist. Your humility and efficiency create lasting positive impressions.",
+        yoruba: "Osanyin's healing wisdom shapes your worldly face. Like the herbalist who knows every leaf's medicine, you appear as someone who can organize and heal. Your Ori chose this mask to teach that service is sacred work.",
+        synthesis: "Your rising sign is the Healer's quiet strength. Virgo Rising teaches that competence creates trust. When you balance your helpful nature with self-respect, you become a reliable force for practical healing in your community.",
+        lifeThemes: "Serving without losing yourself, setting appropriate boundaries in helping others, using your analytical gifts for collective benefit, learning that perfection is less important than wholeness."
+      },
+      Libra: {
+        western: "Your Libra Rising presents a harmonious, diplomatic presence that suggests fairness and beauty. You appear balanced and approachable, with a physical presence that conveys grace and consideration. Others feel at ease around you, sensing your commitment to equity. Your ability to see multiple perspectives creates bridges in social situations.",
+        yoruba: "Oshun's balancing beauty shapes your worldly presentation. Like the river goddess who negotiates harmony, you appear as someone who can bring people together. Your Ori chose this mask to teach that relationships are sacred work.",
+        synthesis: "Your rising sign is the Diplomat's scales. Libra Rising teaches that balance creates peace. When you honor both justice and mercy, you become a mediator who weaves harmony from conflict.",
+        lifeThemes: "Maintaining balance without losing yourself, speaking up for justice while honoring others' perspectives, creating beauty that serves harmony, learning that true diplomacy includes your own needs."
+      },
+      Scorpio: {
+        western: "Your Scorpio Rising presents an intense, mysterious presence that suggests depth and power. You appear magnetic and perceptive, with a physical presence that conveys both vulnerability and strength. Others sense your capacity for transformation, feeling both drawn to and intimidated by your intensity. Your eyes seem to see beneath surfaces.",
+        yoruba: "Oya's transformative winds shape your worldly face. Like the guardian of transitions, you appear as someone who can navigate life's depths. Your Ori chose this mask to teach that power includes compassion.",
+        synthesis: "Your rising sign is the Transformer's gaze. Scorpio Rising teaches that intensity is magnetic. When you balance your perceptive power with gentle presence, you become a guide for others through their own transformations.",
+        lifeThemes: "Using your intensity for healing rather than control, balancing vulnerability with boundaries, trusting your intuition about others, learning that true power serves transformation."
+      },
+      Sagittarius: {
+        western: "Your Sagittarius Rising presents an optimistic, philosophical presence that suggests adventure and wisdom. You appear open-minded and enthusiastic, with a physical presence that conveys freedom and exploration. Others are inspired by your positive outlook and sense of possibility. Your curiosity and generosity create welcoming first impressions.",
+        yoruba: "Orunmila's questing wisdom shapes your worldly presentation. Like the sage who travels for truth, you appear as someone who can expand horizons. Your Ori chose this mask to teach that wisdom includes joy.",
+        synthesis: "Your rising sign is the Seeker's horizon. Sagittarius Rising teaches that optimism opens doors. When you balance your expansive vision with present-moment awareness, you become a guide who inspires others toward their own growth.",
+        lifeThemes: "Seeking wisdom without losing grounding, balancing optimism with realism, using your enthusiasm to serve others' growth, learning that true freedom includes responsibility."
+      },
+      Capricorn: {
+        western: "Your Capricorn Rising presents a responsible, authoritative presence that suggests maturity and capability. You appear competent and composed, with a physical presence that conveys dignity and reliability. Others respect your judgment and sense your commitment to excellence. Your quiet confidence creates lasting impressions of trustworthiness.",
+        yoruba: "Obatala's patient wisdom shapes your worldly face. Like the creator who builds with care, you appear as someone who can be relied upon. Your Ori chose this mask to teach that authority serves the community.",
+        synthesis: "Your rising sign is the Elder's steady gaze. Capricorn Rising teaches that responsibility creates trust. When you balance your serious nature with warmth, you become a reliable leader who builds lasting foundations for others.",
+        lifeThemes: "Using authority for service rather than control, balancing achievement with relationships, learning to receive support as well as give it, remembering that true leadership includes humility."
+      },
+      Aquarius: {
+        western: "Your Aquarius Rising presents an innovative, humanitarian presence that suggests vision and community. You appear unique and forward-thinking, with a physical presence that conveys both detachment and care. Others sense your commitment to larger causes and appreciate your objective perspective. Your unconventional approach creates memorable first impressions.",
+        yoruba: "Shango's revolutionary fire and Oya's winds combine in your presentation. Like the reformer who serves the collective, you appear as someone who can envision change. Your Ori chose this mask to teach that innovation serves humanity.",
+        synthesis: "Your rising sign is the Visionary's light. Aquarius Rising teaches that uniqueness is a gift. When you balance your innovative spirit with human connection, you become a catalyst for positive collective change.",
+        lifeThemes: "Using your vision for collective benefit, balancing detachment with empathy, learning to collaborate while maintaining individuality, remembering that true innovation serves human needs."
+      },
+      Pisces: {
+        western: "Your Pisces Rising presents a compassionate, dreamy presence that suggests spirituality and empathy. You appear gentle and intuitive, with a physical presence that conveys both vulnerability and wisdom. Others feel understood around you, sensing your capacity for unconditional love. Your kindness and imagination create deeply moving first impressions.",
+        yoruba: "Olokun's oceanic depths shape your worldly face. Like the deep ocean holding ancient wisdom, you appear as someone who can hold space for mystery. Your Ori chose this mask to teach that compassion is revolutionary.",
+        synthesis: "Your rising sign is the Mystic's embrace. Pisces Rising teaches that gentleness is strength. When you balance your compassionate nature with healthy boundaries, you become a healer who holds space for others' spiritual journeys.",
+        lifeThemes: "Maintaining boundaries while staying compassionate, using your intuition for practical guidance, balancing imagination with grounding, learning that true spirituality includes everyday life."
+      }
+    },
     transit: {
       saturnReturn: "The Saturn Return marks your true entry into astrological adulthood. Saturn 'audits' the structures you've built—career, relationships, identity. In Yoruba terms, this is when your Ori demands alignment between your chosen destiny and your lived character. What was built on Iwa-Pele (good character) solidifies; what lacks integrity crumbles. This is not punishment but pruning.",
       uranusOpposition: "The Uranus Opposition at midlife is the cosmic wake-up call. Whatever has become stagnant, whatever authentic self you've buried beneath expectations—Uranus demands liberation. Oya's transformative winds blow through your life. The question is not whether change comes, but whether you ride the storm or are swept away.",
@@ -234,6 +327,12 @@ const getInterpretation = (type, data) => {
 
   if (type === 'sunSign' && data.sign) {
     return interpretations.sunSign[data.sign] || interpretations.sunSign.Aries;
+  }
+  if (type === 'moonSign' && data.sign) {
+    return interpretations.moonSign[data.sign] || interpretations.moonSign.Aries;
+  }
+  if (type === 'risingSign' && data.sign) {
+    return interpretations.risingSign[data.sign] || interpretations.risingSign.Aries;
   }
   if (type === 'transit' && data.transitType) {
     return interpretations.transit[data.transitType];
@@ -1150,6 +1249,8 @@ const DailyScreen = ({ userData, chartData }) => {
 const NatalScreen = ({ userData, chartData }) => {
   const [activeTab, setActiveTab] = useState('chart');
   const interpretation = getInterpretation('sunSign', { sign: chartData.sunSign });
+  const moonInterpretation = getInterpretation('moonSign', { sign: chartData.moonSign });
+  const risingInterpretation = getInterpretation('risingSign', { sign: chartData.rising });
 
   return (
     <div className="fade-in">
@@ -1257,6 +1358,44 @@ const NatalScreen = ({ userData, chartData }) => {
                 <p style={{ fontSize: '14px', color: '#c0b8cf' }}>
                   Your Sun sign connects you to {ORISHA_CORRESPONDENCES.Sun.orisha}'s energy: {ORISHA_CORRESPONDENCES.Sun.traits}.
                 </p>
+              </div>
+            </>
+          )}
+
+          {/* Moon Interpretation */}
+          <h3 style={{ ...styles.cardTitle, marginTop: '24px' }}>Your {chartData.moonSign} Moon</h3>
+          {moonInterpretation && (
+            <>
+              <div style={styles.interpretationSection}>
+                <p style={styles.interpretationLabel}>Western Perspective</p>
+                <p style={styles.interpretation}>{moonInterpretation.western}</p>
+              </div>
+              <div style={styles.interpretationSection}>
+                <p style={styles.interpretationLabel}>Yoruba Wisdom</p>
+                <p style={styles.interpretation}>{moonInterpretation.yoruba}</p>
+              </div>
+              <div style={styles.interpretationSection}>
+                <p style={styles.interpretationLabel}>Shadow Work</p>
+                <p style={styles.interpretation}>{moonInterpretation.shadowWork}</p>
+              </div>
+            </>
+          )}
+
+          {/* Rising Interpretation */}
+          <h3 style={{ ...styles.cardTitle, marginTop: '24px' }}>Your {chartData.rising} Rising</h3>
+          {risingInterpretation && (
+            <>
+              <div style={styles.interpretationSection}>
+                <p style={styles.interpretationLabel}>Western Perspective</p>
+                <p style={styles.interpretation}>{risingInterpretation.western}</p>
+              </div>
+              <div style={styles.interpretationSection}>
+                <p style={styles.interpretationLabel}>Yoruba Wisdom</p>
+                <p style={styles.interpretation}>{risingInterpretation.yoruba}</p>
+              </div>
+              <div style={styles.interpretationSection}>
+                <p style={styles.interpretationLabel}>Life Themes</p>
+                <p style={styles.interpretation}>{risingInterpretation.lifeThemes}</p>
               </div>
             </>
           )}
@@ -1539,12 +1678,7 @@ const JournalScreen = ({ userData, chartData, entries, setEntries }) => {
 };
 
 // Settings Screen
-const SettingsScreen = ({ userData, setUserData, onLogout }) => {
-  const [settings, setSettings] = useState({
-    notifications: true,
-    houseSystem: 'placidus',
-    theme: 'dark'
-  });
+const SettingsScreen = ({ userData, setUserData, onLogout, settings, setSettings }) => {
 
   return (
     <div className="fade-in">
@@ -1560,6 +1694,26 @@ const SettingsScreen = ({ userData, setUserData, onLogout }) => {
             style={styles.input}
             value={userData.name}
             onChange={e => setUserData({ ...userData, name: e.target.value })}
+          />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Ephemeris API URL (optional)</label>
+          <input
+            type="url"
+            style={styles.input}
+            value={settings.ephemerisApiUrl || ''}
+            onChange={e => setSettings({ ...settings, ephemerisApiUrl: e.target.value })}
+            placeholder="https://api.example.com/natal"
+          />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Ephemeris API Key (optional)</label>
+          <input
+            type="text"
+            style={styles.input}
+            value={settings.ephemerisApiKey || ''}
+            onChange={e => setSettings({ ...settings, ephemerisApiKey: e.target.value })}
+            placeholder="Paste API key here"
           />
         </div>
         <div style={styles.formGroup}>
@@ -1579,6 +1733,32 @@ const SettingsScreen = ({ userData, setUserData, onLogout }) => {
             value={userData.birthTime || ''}
             onChange={e => setUserData({ ...userData, birthTime: e.target.value })}
           />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Birth City</label>
+          <input
+            type="text"
+            style={styles.input}
+            value={userData.birthCity || ''}
+            onChange={e => setUserData({ ...userData, birthCity: e.target.value })}
+          />
+        </div>
+        <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+          <button
+            style={{ ...styles.button, ...styles.buttonSecondary }}
+            onClick={async () => {
+              const query = userData.birthCountry ? `${userData.birthCity}, ${userData.birthCountry}` : (userData.birthCity || '');
+              const geo = await geocodeCity(query);
+              if (geo) {
+                setUserData({ ...userData, birthLat: geo.latitude, birthLng: geo.longitude });
+                alert('Coordinates resolved and saved.');
+              } else {
+                alert('Could not resolve coordinates. Try a more specific city name.');
+              }
+            }}
+          >
+            Resolve Coordinates
+          </button>
         </div>
       </div>
 
@@ -1657,6 +1837,11 @@ export default function CelestialSelf() {
   const [activeScreen, setActiveScreen] = useState('daily');
   const [journalEntries, setJournalEntries] = useState([]);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [settings, setSettings] = useState({
+    notifications: true,
+    houseSystem: 'placidus',
+    theme: 'dark'
+  });
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -1682,22 +1867,77 @@ export default function CelestialSelf() {
     localStorage.setItem('celestialSelfJournal', JSON.stringify(journalEntries));
   }, [journalEntries]);
 
-  // Calculate chart data
-  const chartData = useMemo(() => {
-    if (!userData?.birthDate) return null;
-    
-    const [, month, day] = userData.birthDate.split('-').map(Number);
-    const sunSign = calculateSunSign(month, day);
-    const moonSign = calculateMoonSign(userData.birthDate, userData.birthTime);
-    const rising = calculateRising(userData.birthTime, userData.birthDate);
-    const positions = calculatePlanetPositions(userData.birthDate, userData.birthTime);
-    const aspects = calculateAspects(positions);
+  // Calculate chart data using ephemeris utils (async to support selectable house systems)
+  const [chartData, setChartData] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    const compute = async () => {
+      if (!userData?.birthDate) {
+        setChartData(null);
+        return;
+      }
+      const birthTime = userData.birthTime || '12:00';
+      const latitude = userData.birthLat || 0;
+      const longitude = userData.birthLng || 0;
+      const houseSystem = (settings && settings.houseSystem) ? settings.houseSystem : 'equal';
 
-    return { sunSign, moonSign, rising, positions, aspects };
-  }, [userData]);
+      let natal = null;
+      if (settings?.ephemerisApiUrl) {
+        try {
+          natal = await fetchNatalChartFromApi(settings.ephemerisApiUrl, settings.ephemerisApiKey, {
+            birthDate: userData.birthDate,
+            birthTime: birthTime,
+            latitude,
+            longitude,
+            houseSystem
+          });
+        } catch (e) {
+          console.warn('Ephemeris API failed, falling back to local ephemeris:', e.message);
+          natal = await getNatalChart(userData.birthDate, birthTime, latitude, longitude, houseSystem);
+        }
+      } else {
+        natal = await getNatalChart(userData.birthDate, birthTime, latitude, longitude, houseSystem);
+      }
 
-  const handleOnboardingComplete = (data) => {
-    setUserData(data);
+      const positions = Object.keys(natal.positions).map(planet => {
+        const p = natal.positions[planet];
+        const lonDeg = typeof p === 'number' ? p : (p?.longitude ?? 0);
+        const retro = typeof p === 'object' ? !!p.retrograde : false;
+        const norm = ((lonDeg % 360) + 360) % 360;
+        const signIndex = Math.floor(norm / 30);
+        const sign = ZODIAC_SIGNS[signIndex];
+        const degree = +(norm % 30).toFixed(2);
+        const houseIndex = Math.floor((((norm - natal.ascendant) + 360) % 360) / 30) + 1;
+        return { planet, sign, degree, house: houseIndex, degreeRaw: norm, retrograde: retro };
+      });
+
+      const sunP = natal.positions['Sun'];
+      const moonP = natal.positions['Moon'];
+      const sunLon = typeof sunP === 'number' ? sunP : (sunP?.longitude ?? 0);
+      const moonLon = typeof moonP === 'number' ? moonP : (moonP?.longitude ?? 0);
+
+      const sunSign = ZODIAC_SIGNS[Math.floor((((sunLon % 360) + 360) % 360) / 30)];
+      const moonSign = ZODIAC_SIGNS[Math.floor((((moonLon % 360) + 360) % 360) / 30)];
+      const rising = ZODIAC_SIGNS[Math.floor((((natal.ascendant % 360) + 360) % 360) / 30)];
+
+      const aspects = calculateAspects(positions);
+
+      const result = { sunSign, moonSign, rising, positions, aspects, ascendant: natal.ascendant, houses: natal.houses };
+      if (!cancelled) setChartData(result);
+    };
+    compute();
+    return () => { cancelled = true; };
+  }, [userData, settings]);
+
+  const handleOnboardingComplete = async (data) => {
+    const cityQuery = data.birthCountry ? `${data.birthCity}, ${data.birthCountry}` : data.birthCity;
+    const geo = await geocodeCity(cityQuery);
+    const enriched = { ...data };
+    if (geo) {
+      enriched.birthLat = geo.latitude;
+      enriched.birthLng = geo.longitude;
+    }
+    setUserData(enriched);
     setIsOnboarded(true);
   };
 
@@ -1781,6 +2021,8 @@ export default function CelestialSelf() {
               userData={userData} 
               setUserData={setUserData}
               onLogout={handleLogout}
+              settings={settings}
+              setSettings={setSettings}
             />
           )}
         </main>

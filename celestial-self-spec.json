@@ -1,0 +1,602 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "meta": {
+    "project": "Celestial Self",
+    "version": "1.0.1",
+    "description": "Personal astrology companion integrating Western Astrology with Yoruba cosmological wisdom",
+    "stack": {
+      "framework": "React 19.2.3",
+      "bundler": "Create React App 5.0.1",
+      "styling": "Inline styles object",
+      "persistence": "localStorage",
+      "deployment": "GitHub Pages"
+    },
+    "lastUpdated": "2025-01-01",
+    "aiInstructions": "This spec guides development of the Celestial Self app. When implementing features, maintain the existing purple/violet color palette, Cormorant Garamond + Nunito Sans typography, and the dual Western/Yoruba interpretation framework while expanding and updating. All astrological content should be respectful, educational, and spiritually inclusive. Do not edit existing context, maintain all working aspects and focus on expansion. Use the celestial-self-demo to continue with the project, and keep in mind the background context texts that are provided; ask any necessary questions before proceeding with the task. Be sure to focus on the status for each block and adjust accordingly."
+  },
+
+  "architecture": {
+    "currentState": {
+      "structure": "Single-file component (CelestialSelf.jsx)",
+      "stateManagement": "React useState/useEffect with localStorage",
+      "routing": "Internal state-based screen switching",
+      "limitations": [
+        "No code splitting - entire app in one 1200+ line file",
+        "Simplified ephemeris calculations (not astronomically accurate)",
+        "No backend - all data local",
+        "No real geocoding for birth location"
+      ]
+    },
+    "targetState": {
+      "structure": "Modular component architecture with feature folders",
+      "stateManagement": "React Context for global state",
+      "routing": "React Router for deep linking (PWA preparation)",
+      "dataLayer": "Firebase for sync across devices"
+    }
+  },
+
+  "features": {
+    "newFeatures": [
+      {
+        "id": "NF-001",
+        "title": "Accurate Ephemeris Integration",
+        "description": "Replace simplified planetary calculations with astronomically accurate ephemeris data using Swiss Ephemeris (via astronomy-engine npm package)",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "high",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          "Planetary positions accurate to within 2 degrees",
+          "Proper retrograde detection from actual orbital mechanics",
+          "Accurate house cusps based on selected house system",
+          "Rising sign calculated from actual ascendant degree"
+        ],
+        "implementation": {
+          "suggestedPackage": "astronomy-engine",
+          "files": ["src/utils/ephemeris.js", "src/utils/houses.js"],
+          "notes": "astronomy-engine is lightweight and works in browser. Alternative: astronomia or external API like AstrologyAPI.com"
+        }
+      },
+      {
+        "id": "NF-002",
+        "title": "Synastry & Compatibility Charts",
+        "description": "Allow users to add partner/friend birth data and generate relationship compatibility analysis",
+        "priority": "high",
+        "status": "continue planning",
+        "complexity": "high",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "Store multiple birth profiles",
+          "Generate synastry aspect grid",
+          "Composite chart calculation",
+          "Written compatibility interpretations for major aspects",
+          "Yoruba perspective on relationship dynamics (Ori alignment)"
+        ],
+        "screens": ["Partner Profiles", "Synastry Chart", "Compatibility Report"]
+      },
+      {
+        "id": "NF-003",
+        "title": "Transit Calendar & Forecasting",
+        "description": "Visual calendar showing upcoming transits to natal chart with intensity ratings and interpretations",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "medium",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "Monthly calendar view with transit indicators",
+          "Click day for detailed transit breakdown",
+          "Major transit alerts (Saturn return, Pluto square, etc.)",
+          "Filter by planet or aspect type",
+          "Export to external calendar (ICS)"
+        ],
+        "yorubaIntegration": "Align significant transits with Yoruba festival calendar and Orisha feast days"
+      },
+      {
+        "id": "NF-004",
+        "title": "Solar & Lunar Return Charts",
+        "description": "Generate annual solar return and monthly lunar return charts with interpretations",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "medium",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "Calculate exact solar return moment",
+          "Generate return chart with house placements",
+          "Year-ahead themes interpretation",
+          "Lunar return for monthly emotional forecast"
+        ]
+      },
+      {
+        "id": "NF-005",
+        "title": "Retrograde Tracker",
+        "description": "Dashboard showing current and upcoming retrogrades with personalized impact analysis",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "low",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "List all current retrogrades with dates",
+          "Show which natal houses are affected",
+          "Pre-retrograde shadow and post-retrograde shadow dates",
+          "Survival guide content for each retrograde planet"
+        ]
+      },
+      {
+        "id": "NF-006",
+        "title": "Eclipse Tracker",
+        "description": "Track solar and lunar eclipses and their relationship to user's natal chart",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "medium",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "Show next 4 upcoming eclipses",
+          "Indicate which natal house each eclipse activates",
+          "Eclipse family/saros cycle information",
+          "Historical eclipse patterns in user's life"
+        ]
+      },
+      {
+        "id": "NF-008",
+        "title": "Daily Card Draw",
+        "description": "Optional daily tarot or oracle card feature that complements astrological insights",
+        "priority": "low",
+        "status": "continue planning",
+        "complexity": "medium",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          "Deck selection (Tarot, Lenormand, or custom Orisha oracle)",
+          "Single card or 3-card spread options",
+          "Card meanings integrated with current transits",
+          "Journal integration for card reflections"
+        ],
+        "contentNeeded": ["78 tarot card interpretations", "Orisha oracle deck design (16 cards based on Odu)"]
+      },
+      {
+        "id": "NF-009",
+        "title": "Guided Meditations",
+        "description": "Audio or text-based meditations tailored to current planetary weather and user's chart",
+        "priority": "low",
+        "status": "continue planning",
+        "complexity": "high",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          "Meditation for each planet",
+          "Moon phase specific meditations",
+          "Orisha invocation meditations",
+          "Timer with ambient sounds"
+        ]
+      },
+      {
+        "id": "NF-010",
+        "title": "Progressed Chart",
+        "description": "Secondary progressions showing evolved natal chart",
+        "priority": "low",
+        "status": "execute",
+        "complexity": "high",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "Calculate day-for-year progressions",
+          "Show progressed planets vs natal",
+          "Highlight major progressed aspects",
+          "Life chapter interpretation"
+        ]
+      },
+      {
+        "id": "NF-012",
+        "title": "Birth Time Rectification Helper",
+        "description": "Tool to help users with unknown birth times narrow down possibilities through life event questioning",
+        "priority": "low",
+        "status": "continue planning",
+        "complexity": "high",
+        "dependencies": ["NF-001"],
+        "acceptanceCriteria": [
+          "Questionnaire about major life events with dates",
+          "Correlate events with potential rising signs",
+          "Suggest most likely 2-hour birth window",
+          "Educational content about rectification"
+        ]
+      },
+      {
+        "id": "NF-013",
+        "title": "Aspect Pattern Detection",
+        "description": "Identify and interpret major aspect patterns (Grand Trine, T-Square, Yod, Grand Cross, Stellium)",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "medium",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          "Detect all major aspect configurations",
+          "Visual highlighting on chart wheel",
+          "Detailed interpretation for each pattern",
+          "Yoruba parallel concepts where applicable"
+        ]
+      },
+      {
+        "id": "NF-014",
+        "title": "Notification System",
+        "description": "Configurable alerts for significant astrological events",
+        "priority": "medium",
+        "status": "continue planning",
+        "complexity": "medium",
+        "dependencies": ["NF-011"],
+        "acceptanceCriteria": [
+          "Moon phase notifications",
+          "Personal transit alerts",
+          "Retrograde start/end alerts",
+          "Daily affirmation reminder",
+          "Customizable notification preferences"
+        ]
+      },
+      {
+        "id": "NF-015",
+        "title": "Social Sharing",
+        "description": "Share chart snippets, daily insights, or journal entries to social media",
+        "priority": "low",
+        "status": "continue planning",
+        "complexity": "low",
+        "dependencies": [],
+        "acceptanceCriteria": [
+          "Generate shareable chart image",
+          "Share daily affirmation cards",
+          "Privacy controls for journal sharing",
+          "Watermark with app branding"
+        ]
+      }
+    ],
+
+    "contentExpansion": [
+      {
+        "id": "CE-001",
+        "title": "Moon Sign Interpretations",
+        "description": "Full interpretations for Moon in each of the 12 signs with Western + Yoruba perspectives",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "medium",
+        "contentStructure": {
+          "perSign": {
+            "western": "2-3 paragraphs on emotional nature, needs, instincts",
+            "yoruba": "Connection to Yemaya and emotional Ori",
+            "synthesis": "Integration of both perspectives",
+            "shadowWork": "Challenges and growth edges"
+          }
+        },
+        "totalItems": 12
+      },
+      {
+        "id": "CE-002",
+        "title": "Rising Sign Interpretations",
+        "description": "Full interpretations for Ascendant in each sign - the mask and life path",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "medium",
+        "contentStructure": {
+          "perSign": {
+            "western": "Physical appearance tendencies, first impressions, life approach",
+            "yoruba": "Ori's chosen presentation to the world",
+            "synthesis": "Integration of both perspectives",
+            "lifeThemes": "Major life lessons associated with this rising"
+          }
+        },
+        "totalItems": 12
+      },
+      {
+        "id": "CE-003",
+        "title": "House Interpretations",
+        "description": "Meaning of each of the 12 houses with planets passing through",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "medium",
+        "contentStructure": {
+          "perHouse": {
+            "domain": "Life area governed",
+            "themes": "Key themes and questions",
+            "yorubaParallel": "Yoruba cosmological equivalent concept",
+            "planetsInHouse": "Brief interpretation for each planet in this house"
+          }
+        },
+        "totalItems": 12,
+        "subItems": "10 planets × 12 houses = 120 planet-in-house interpretations"
+      },
+      {
+        "id": "CE-004",
+        "title": "Aspect Interpretations",
+        "description": "Detailed interpretations for all major planet-to-planet aspects",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "high",
+        "contentStructure": {
+          "perAspect": {
+            "nature": "Harmonious/Challenging/Neutral",
+            "western": "Psychological interpretation",
+            "yoruba": "Orisha dialogue perspective",
+            "expression": "How this manifests in life",
+            "integration": "How to work with this energy"
+          }
+        },
+        "totalItems": "~45 major planet pairs × 5 aspects = ~225 interpretations",
+        "priorityAspects": ["Sun-Moon", "Sun-Saturn", "Moon-Pluto", "Venus-Mars", "Mercury-Jupiter"]
+      },
+      {
+        "id": "CE-005",
+        "title": "Extended Orisha Correspondences",
+        "description": "Deeper Orisha content beyond current planet mappings",
+        "priority": "high",
+        "status": "execute",
+        "complexity": "medium",
+        "contentStructure": {
+          "additionalOrishas": [
+            {"name": "Nana Buruku", "domain": "Primordial Mother, ancestral wisdom", "planetaryLink": "Moon (deeper layer)"},
+            {"name": "Babalu-Aye", "domain": "Healing, disease, earth", "planetaryLink": "Saturn/Pluto"},
+            {"name": "Oshumare", "domain": "Rainbow serpent, continuity, cycles", "planetaryLink": "Nodes"},
+            {"name": "Ibeji", "domain": "Divine twins, duality, inner child", "planetaryLink": "Gemini/3rd House"},
+            {"name": "Orunmila", "domain": "Divination, destiny, wisdom", "planetaryLink": "Mercury/Jupiter"}
+          ],
+          "orishaProfiles": "Full page profile for each Orisha with myths, offerings, signs of connection",
+          "orishaQuiz": "Which Orisha walks with you? - based on chart emphasis"
+        },
+        "culturalNote": "All content should be developed with respect for living Yoruba religious traditions. Include disclaimer about cultural context."
+      },
+      {
+        "id": "CE-006",
+        "title": "Odu Ifá Integration",
+        "description": "Connect the 16 principal Odu to astrological concepts",
+        "priority": "medium",
+        "status": "continue planning",
+        "complexity": "high",
+        "contentStructure": {
+          "oduMapping": "Map each Odu to zodiac signs, houses, or planetary combinations",
+          "dailyOdu": "Odu of the day based on planetary positions",
+          "natalOdu": "Suggested primary Odu based on chart emphasis"
+        },
+        "culturalNote": "This is interpretive/educational, not divination. Acknowledge that true Ifá requires initiated Babalawo."
+      },
+      {
+        "id": "CE-007",
+        "title": "Transit Interpretations Library",
+        "description": "Interpretations for transiting planets aspecting natal planets",
+        "priority": "high",
+        "status": "continue planning",
+        "complexity": "high",
+        "contentStructure": {
+          "majorTransits": {
+            "saturnReturn": "Already exists - expand with phases",
+            "uranusOpposition": "Already exists - expand",
+            "plutoSquare": "Already exists - expand",
+            "jupiterReturn": "New - every 12 years",
+            "nodeSaturn": "New - karmic timing"
+          },
+          "transitingPlanetToNatal": "10 transiting × 10 natal × 5 aspects = 500 interpretations (prioritize)"
+        },
+        "priorityTransits": [
+          "Saturn to Sun/Moon/Ascendant",
+          "Uranus to Sun/Moon/Ascendant", 
+          "Pluto to Sun/Moon/Ascendant",
+          "Jupiter to all natal planets",
+          "Eclipses to natal planets"
+        ]
+      },
+      {
+        "id": "CE-008",
+        "title": "Life Cycle Interpretations",
+        "description": "Content for major astrological life milestones",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "medium",
+        "milestones": [
+          {"age": "~7", "event": "First Saturn square", "theme": "Early challenges to identity"},
+          {"age": "~12", "event": "First Jupiter return", "theme": "Expansion of worldview"},
+          {"age": "~14", "event": "Saturn opposition", "theme": "Adolescent testing"},
+          {"age": "~21", "event": "Uranus square", "theme": "Breaking from family patterns"},
+          {"age": "~29-30", "event": "Saturn return", "theme": "Adulthood initiation"},
+          {"age": "~36", "event": "Second Jupiter return + Pluto square", "theme": "Midlife stirrings"},
+          {"age": "~42", "event": "Uranus opposition + Neptune square", "theme": "Midlife transformation"},
+          {"age": "~50", "event": "Chiron return", "theme": "Wounded healer integration"},
+          {"age": "~58-60", "event": "Second Saturn return", "theme": "Elder wisdom"},
+          {"age": "~84", "event": "Uranus return", "theme": "Liberation/completion"}
+        ]
+      },
+      {
+        "id": "CE-009",
+        "title": "Elemental Balance Analysis",
+        "description": "Calculate and interpret the user's elemental (Fire/Earth/Air/Water) and modal (Cardinal/Fixed/Mutable) balance",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "low",
+        "contentStructure": {
+          "elementalProfiles": "What it means to be fire-dominant, lacking water, etc.",
+          "modalProfiles": "Cardinal-heavy vs Fixed-heavy implications",
+          "balanceRemedies": "Suggestions for cultivating missing elements",
+          "yorubaElements": "Connect to Yoruba elemental concepts (similar but distinct)"
+        }
+      },
+      {
+        "id": "CE-010",
+        "title": "Planetary Dignity System",
+        "description": "Show planets in domicile, exaltation, detriment, or fall with interpretations",
+        "priority": "low",
+        "status": "continue planning",
+        "complexity": "low",
+        "contentStructure": {
+          "dignityTable": "Traditional dignity assignments",
+          "interpretations": "What it means for your Mars to be in domicile vs detriment",
+          "orishaAngle": "How dignity affects Orisha expression"
+        }
+      }
+    ],
+
+    "technicalImprovements": [
+      {
+        "id": "TI-001",
+        "title": "Component Modularization",
+        "description": "Break CelestialSelf.jsx into logical component modules",
+        "priority": "high",
+        "status": "continue planning",
+        "complexity": "medium",
+        "proposedStructure": {
+          "src/components/": {
+            "common/": ["Button.jsx", "Card.jsx", "Modal.jsx", "Input.jsx", "Toggle.jsx"],
+            "layout/": ["Sidebar.jsx", "Starfield.jsx", "GlobalStyles.jsx"],
+            "onboarding/": ["Onboarding.jsx", "BirthDataForm.jsx"],
+            "daily/": ["DailyScreen.jsx", "TransitCard.jsx", "MoonPhaseCard.jsx", "AffirmationCard.jsx"],
+            "natal/": ["NatalScreen.jsx", "ChartWheel.jsx", "BigThree.jsx", "PlacementsList.jsx", "AspectsList.jsx"],
+            "journal/": ["JournalScreen.jsx", "JournalEntry.jsx", "NewEntryModal.jsx", "MoodSelector.jsx"],
+            "settings/": ["SettingsScreen.jsx", "ProfileForm.jsx"]
+          },
+          "src/utils/": ["ephemeris.js", "aspects.js", "interpretations.js", "storage.js"],
+          "src/data/": ["zodiacSigns.js", "planets.js", "orishas.js", "interpretationTexts.js"],
+          "src/hooks/": ["useLocalStorage.js", "useChartCalculations.js"],
+          "src/context/": ["UserContext.jsx", "ChartContext.jsx"]
+        }
+      },
+      {
+        "id": "TI-002",
+        "title": "TypeScript Migration",
+        "description": "Add TypeScript for better developer experience and fewer runtime errors",
+        "priority": "medium",
+        "status": "execute",
+        "complexity": "high",
+        "dependencies": ["TI-001"]
+      },
+      {
+        "id": "TI-004",
+        "title": "Accessibility Audit",
+        "description": "Ensure WCAG 2.1 AA compliance",
+        "priority": "medium",
+        "status": "continue planning",
+        "complexity": "medium",
+        "requirements": [
+          "Keyboard navigation for all interactive elements",
+          "Screen reader compatibility",
+          "Color contrast ratios",
+          "Focus indicators",
+          "Alt text for chart visualizations"
+        ]
+      },
+
+    "bugFixes": [
+      {
+        "id": "BF-001",
+        "title": "Libra Typo Fix",
+        "description": "ZODIAC_SIGNS array has 'Libitha' which is fixed at runtime but should be corrected in source",
+        "priority": "low",
+        "status": "identified",
+        "complexity": "trivial",
+        "location": "CelestialSelf.jsx line 13"
+      },
+      {
+        "id": "BF-002",
+        "title": "Sun Sign Calculation Edge Cases",
+        "description": "Current calculateSunSign function may have issues at sign boundaries (cusp dates)",
+        "priority": "medium",
+        "status": "identified",
+        "complexity": "low",
+        "notes": "Will be superseded by NF-001 (accurate ephemeris)"
+      }
+    ]
+  },
+
+  "designSystem": {
+    "colors": {
+      "background": {
+        "primary": "#0d0d12",
+        "secondary": "#1a1520",
+        "tertiary": "#252030",
+        "card": "#13111a"
+      },
+      "accent": {
+        "primary": "#c9a0dc",
+        "secondary": "#9d8ec2",
+        "tertiary": "#7b6b9e"
+      },
+      "border": "#5c4d7a",
+      "text": {
+        "primary": "#e8e6ed",
+        "secondary": "#c0b8cf",
+        "muted": "#8a8694",
+        "dimmed": "#6b6574"
+      },
+      "elements": {
+        "fire": "#d4a574",
+        "earth": "#8b9a82",
+        "air": "#a8b5c4",
+        "water": "#7a9bb5"
+      }
+    },
+    "typography": {
+      "heading": "Cormorant Garamond",
+      "body": "Nunito Sans",
+      "accent": "Cinzel"
+    },
+    "spacing": {
+      "unit": "4px",
+      "scale": [4, 8, 12, 16, 20, 24, 32, 40, 48, 64]
+    },
+    "borderRadius": {
+      "small": "8px",
+      "medium": "12px",
+      "large": "16px",
+      "full": "9999px"
+    }
+  },
+
+  "mobileAppConsiderations": {
+    "reactNativeMigration": {
+      "approach": "Shared business logic, platform-specific UI",
+      "sharedCode": ["Ephemeris calculations", "Interpretation data", "State management"],
+      "platformSpecific": ["Navigation (React Navigation)", "Styling (StyleSheet)", "Storage (AsyncStorage)", "Notifications (expo-notifications)"],
+      "frameworks": ["React Native CLI", "Expo (recommended for faster development)"]
+    },
+    "nativeFeatures": [
+      "Push notifications for transits",
+      "Widget for daily insights (iOS/Android)",
+      "Dark/light mode following system",
+    ],
+    "preparationSteps": [
+      "Separate presentation from logic now",
+      "Use platform-agnostic state management",
+      "Abstract storage layer",
+      "Design component API that translates to React Native"
+    ]
+  },
+
+  "contentGuidelines": {
+    "tone": "Warm, wise, empowering - never fatalistic or fear-based",
+    "spiritualApproach": "Inclusive and educational, respecting source traditions",
+    "astrologicalPhilosophy": "Psychological/archetypal approach as well as predictive/deterministic",
+    "yorubaDisclaimer": "Always acknowledge that app content is educational/inspirational, not a substitute for traditional Ifá divination or initiated practice",
+    "writingStyle": {
+      "interpretations": "Poetic but grounded, using metaphor and archetype",
+      "ui": "Clear, concise, encouraging",
+      "avoid": ["Fear-mongering about difficult transits", "Absolute predictions", "Cultural appropriation", "Oversimplification of Yoruba concepts"]
+    }
+  },
+
+  "priorityRoadmap": {
+    "phase1_foundation": {
+      "timeline": "N/A",
+      "focus": "Technical foundation and core content",
+      "items": ["TI-001", "NF-001", "CE-001", "CE-002", "BF-001"]
+    },
+    "phase2_expansion": {
+      "timeline": "N/A",
+      "focus": "Major features and content depth",
+      "items": ["NF-003", "NF-005", "NF-006", "CE-003", "CE-004", "NF-011"]
+    },
+    "phase3_relationships": {
+      "timeline": "N/A",
+      "focus": "Social and relational features",
+      "items": ["NF-002", "NF-007", "CE-005", "NF-014"]
+    },
+    "phase4_polish": {
+      "timeline": "N/A",
+      "focus": "Refinement and advanced features",
+      "items": ["NF-004", "NF-013", "CE-007", "CE-008", "TI-004"]
+    },
+    "phase5_mobile": {
+      "timeline": "N/A",
+      "focus": "Mobile app development",
+      "items": ["React Native migration", "Native features integration"]
+    }
+  }
+}
